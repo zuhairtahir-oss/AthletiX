@@ -1,0 +1,83 @@
+/**
+ * AthletiX design tokens.
+ *
+ * Single source of truth for color, typography, radius and elevation.
+ * Tailwind v4 reads this @theme block and generates matching utilities
+ * (e.g. --color-brand -> bg-brand / text-brand / border-brand).
+ *
+ * Palette intent:
+ *  - Near-black neutral base (not pure black) for a premium, low-glare surface.
+ *  - Signal Teal as the primary brand color: performance/data-tech, not
+ *    finance-blue/purple, not the red/orange used by most sports brands.
+ *  - Warm Amber as the secondary accent: pairs with teal for comparisons,
+ *    "vs" states, and secondary chart series.
+ *  - Dedicated semantic colors for success/warning/error/live so status is
+ *    never communicated by brand color alone.
+ */
+
+@theme {
+  /* ---- Typography ---- */
+  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+
+  /* ---- Surfaces ---- */
+  --color-bg: #0a0b0d;
+  --color-surface: #15161a;
+  --color-surface-elevated: #1d1f24;
+  --color-surface-hover: #23262c;
+
+  /* ---- Borders ---- */
+  --color-border: #292b31;
+  --color-border-strong: #3a3d45;
+
+  /* ---- Text ---- */
+  --color-text: #f2f3f5;
+  --color-text-secondary: #a2a6ad;
+  --color-text-muted: #6b6f78;
+
+  /* ---- Brand ---- */
+  --color-brand: #17d6c2;
+  --color-brand-strong: #0fb8a6;
+  --color-brand-soft: #17d6c21a;
+  --color-on-brand: #04211e;
+
+  /* ---- Accent (secondary) ---- */
+  --color-accent: #ff9d42;
+  --color-accent-strong: #f2872a;
+  --color-accent-soft: #ff9d421a;
+  --color-on-accent: #2a1400;
+
+  /* ---- Semantic status ---- */
+  --color-success: #3ecf74;
+  --color-success-soft: #3ecf7420;
+  --color-warning: #f2b03d;
+  --color-warning-soft: #f2b03d20;
+  --color-error: #f0525a;
+  --color-error-soft: #f0525a20;
+  --color-live: #ff4d5e;
+  --color-live-soft: #ff4d5e20;
+
+  /*
+   * ---- Sport identity ----
+   * One distinct accent per sport so the app reads as a multi-sport
+   * platform (a small colored dot/icon next to a league name, a
+   * left-border on game cards) rather than every league looking
+   * identical. Deliberately desaturated versions of common sport
+   * associations — not primary-color-wheel picks — to stay consistent
+   * with the rest of the near-monochrome palette.
+   */
+  --color-sport-basketball: #ff9d42;
+  --color-sport-hockey: #5eb1ff;
+  --color-sport-football: #8b7cf6;
+  --color-sport-baseball: #e0575c;
+  --color-sport-soccer: #3ecf74;
+
+  /* ---- Radius (restrained, no pill-everything) ---- */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  /* ---- Elevation (subtle, no glow/gradient shadows) ---- */
+  --shadow-elevation-1: 0 1px 2px 0 rgb(0 0 0 / 0.4);
+  --shadow-elevation-2: 0 8px 24px -8px rgb(0 0 0 / 0.55);
+}

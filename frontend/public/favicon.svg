@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" role="img" aria-label="AthletiX">
+  <!-- Mark: two crossing bars forming an X, rising left-to-right to suggest
+       performance/trend. Teal + amber pairing reflects the head-to-head
+       "compare" identity without relying on gradients or glow. -->
+  <rect x="6" y="27" width="36" height="7" rx="2" transform="rotate(-18 24 30.5)" fill="#17D6C2" />
+  <rect x="6" y="14" width="36" height="7" rx="2" transform="rotate(18 24 17.5)" fill="#FF9D42" />
+</svg>
