@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { User, Shield } from "lucide-react";
+import { User, Shield, ArrowUpRight } from "lucide-react";
 import { Card } from "../ui/Card";
 import { SportDot } from "../leagues/SportDot";
 import { useLeagues } from "../../hooks/useLeagues";
@@ -23,7 +23,7 @@ export function SearchResultCard({ result }: SearchResultCardProps) {
 
   return (
     <Link to={to}>
-      <Card interactive className="flex items-center gap-3 p-3">
+      <Card interactive className="group flex items-center gap-3.5 p-3.5">
         {result.image ? (
           <img
             src={result.image}
@@ -39,16 +39,20 @@ export function SearchResultCard({ result }: SearchResultCardProps) {
             )}
           </span>
         )}
-        <div className="min-w-0">
+        <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-semibold text-text">{result.name}</p>
           <p className="truncate text-xs text-text-secondary">{result.subtitle}</p>
           {league && (
-            <p className="mt-0.5 flex items-center gap-1.5 text-xs text-text-muted">
+            <p className="mt-1 flex items-center gap-1.5 text-xs text-text-muted">
               <SportDot sport={result.sport as Sport} />
               {league.name}
             </p>
           )}
         </div>
+        <ArrowUpRight
+          className="h-4 w-4 shrink-0 text-text-muted opacity-0 transition-all duration-[var(--duration-base)] group-hover:translate-x-0.5 group-hover:opacity-100"
+          aria-hidden="true"
+        />
       </Card>
     </Link>
   );

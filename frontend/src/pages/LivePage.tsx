@@ -17,11 +17,16 @@ function GameSection({ title, games }: { title: string; games: GameEvent[] }) {
   if (games.length === 0) return null;
 
   return (
-    <section aria-labelledby={`${title}-heading`} className="flex flex-col gap-3">
-      <h2 id={`${title}-heading`} className="text-sm font-semibold uppercase tracking-wide text-text-secondary">
-        {title} ({games.length})
-      </h2>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <section aria-labelledby={`${title}-heading`} className="flex flex-col gap-3.5">
+      <div className="flex items-center gap-2.5">
+        <h2 id={`${title}-heading`} className="text-sm font-bold uppercase tracking-[0.12em] text-text-secondary">
+          {title}
+        </h2>
+        <span className="rounded-full bg-surface-elevated px-2 py-0.5 text-xs font-bold text-text-muted">
+          {games.length}
+        </span>
+      </div>
+      <div className="stagger grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {games.map((game) => (
           <GameCard key={game.id} game={game} />
         ))}
@@ -86,7 +91,7 @@ export default function LivePage() {
 
       {activeQuery.isSuccess && games.length === 0 && (
         <EmptyState
-          icon={<Radio className="h-6 w-6" aria-hidden="true" />}
+          icon={<Radio className="h-5 w-5" aria-hidden="true" />}
           title={isAllLive ? "No games live right now" : "No games scheduled today"}
           description={
             isAllLive

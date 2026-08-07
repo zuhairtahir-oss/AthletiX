@@ -4,7 +4,7 @@ import { Skeleton } from "../ui/Skeleton";
 /** Loading placeholder matching GameCard's layout so the page doesn't jump when data arrives. */
 export function GameCardSkeleton() {
   return (
-    <Card className="flex flex-col gap-3 p-4">
+    <Card className="flex flex-col gap-3 p-5">
       <div className="flex items-center justify-between">
         <Skeleton className="h-3 w-16" />
         <Skeleton className="h-5 w-14" />

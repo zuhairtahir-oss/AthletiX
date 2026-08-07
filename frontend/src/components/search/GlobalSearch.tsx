@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { Search, User, Shield, X } from "lucide-react";
+import { Search, User, Shield, X, CornerDownLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useSearch } from "../../hooks/useSearch";
 import { useLeagues } from "../../hooks/useLeagues";
@@ -38,7 +38,6 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
 
   useEffect(() => {
     if (open) {
-      // Delay focus slightly so the element exists after the portal mounts.
       const id = window.setTimeout(() => inputRef.current?.focus(), 10);
       return () => window.clearTimeout(id);
     }
@@ -62,41 +61,42 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[100] flex items-start justify-center bg-black/60 px-4 pt-[12vh]"
+      className="fixed inset-0 z-[100] flex items-start justify-center bg-black/70 px-4 pt-[12vh] backdrop-blur-sm animate-fade-in"
       onClick={handleClose}
     >
       <div
         role="dialog"
         aria-modal="true"
         aria-label="Search players and teams"
-        className="w-full max-w-xl overflow-hidden rounded-lg border border-border-strong bg-surface shadow-elevation-2"
+        className="w-full max-w-xl overflow-hidden rounded-xl border border-border-strong bg-surface shadow-elevation-3 animate-fade-up"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center gap-2 border-b border-border px-4">
+        <div className="flex items-center gap-2.5 border-b border-border px-4">
           <Search className="h-4 w-4 shrink-0 text-text-muted" aria-hidden="true" />
           <input
             ref={inputRef}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search players and teams..."
-            className="h-12 w-full bg-transparent text-sm text-text placeholder:text-text-muted focus:outline-none"
+            className="h-13 w-full bg-transparent py-3.5 text-sm text-text placeholder:text-text-muted focus:outline-none"
             aria-label="Search players and teams"
           />
           <button
             type="button"
             onClick={handleClose}
-            className="rounded-md p-1 text-text-muted hover:bg-surface-hover hover:text-text"
+            className="rounded-md p-1 text-text-muted transition-colors hover:bg-surface-hover hover:text-text"
             aria-label="Close search"
           >
             <X className="h-4 w-4" aria-hidden="true" />
           </button>
         </div>
 
-        <div className="max-h-[60vh] overflow-y-auto p-2">
+        <div className="scroll-slim max-h-[60vh] overflow-y-auto p-2">
           {!hasQuery && (
-            <p className="px-3 py-6 text-center text-sm text-text-secondary">
-              Type at least 2 characters to search.
-            </p>
+            <div className="flex flex-col items-center gap-2 px-3 py-10 text-center">
+              <Search className="h-5 w-5 text-text-muted" aria-hidden="true" />
+              <p className="text-sm text-text-secondary">Type at least 2 characters to search.</p>
+            </div>
           )}
 
           {hasQuery && searchQuery.isLoading && (
@@ -108,14 +108,17 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
           )}
 
           {hasQuery && searchQuery.isSuccess && players.length === 0 && teams.length === 0 && (
-            <p className="px-3 py-6 text-center text-sm text-text-secondary">
+            <p className="px-3 py-10 text-center text-sm text-text-secondary">
               No results for &ldquo;{trimmed}&rdquo;.
             </p>
           )}
 
           {hasQuery && teams.length > 0 && (
             <div className="mb-2">
-              <p className="px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-text-muted">Teams</p>
+              <p className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-text-muted">
+                <Shield className="h-3 w-3" aria-hidden="true" />
+                Teams
+              </p>
               {teams.slice(0, 5).map((result) => (
                 <ResultRow
                   key={`${result.league}-${result.id}`}
@@ -131,7 +134,10 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
 
           {hasQuery && players.length > 0 && (
             <div>
-              <p className="px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-text-muted">Players</p>
+              <p className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.12em] text-text-muted">
+                <User className="h-3 w-3" aria-hidden="true" />
+                Players
+              </p>
               {players.slice(0, 6).map((result) => (
                 <ResultRow
                   key={`${result.league}-${result.id}`}
@@ -142,6 +148,13 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
                   onClick={handleClose}
                 />
               ))}
+            </div>
+          )}
+
+          {hasQuery && (players.length > 0 || teams.length > 0) && (
+            <div className="mt-1 flex items-center justify-end gap-1.5 border-t border-border px-3 py-2 text-[11px] text-text-muted">
+              <span>Open</span>
+              <CornerDownLeft className="h-3 w-3" aria-hidden="true" />
             </div>
           )}
         </div>
@@ -161,7 +174,11 @@ interface ResultRowProps {
 
 function ResultRow({ result, to, leagueName, fallbackIcon, onClick }: ResultRowProps) {
   return (
-    <Link to={to} onClick={onClick} className="flex items-center gap-3 rounded-md px-3 py-2 hover:bg-surface-hover">
+    <Link
+      to={to}
+      onClick={onClick}
+      className="flex items-center gap-3 rounded-md px-3 py-2 transition-colors duration-[var(--duration-fast)] hover:bg-surface-hover"
+    >
       {result.image ? (
         <img src={result.image} alt="" className="h-8 w-8 rounded-full bg-surface-elevated object-cover" />
       ) : (

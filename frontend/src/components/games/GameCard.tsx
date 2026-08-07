@@ -29,13 +29,13 @@ function TeamRow({
   emphasize: boolean;
 }) {
   return (
-    <div className="flex items-center justify-between gap-3 py-2">
+    <div className="flex items-center justify-between gap-3 py-2.5">
       <div className="flex min-w-0 items-center gap-2.5">
         <TeamBadge team={team} size="sm" />
         <span
           className={cn(
-            "truncate text-sm",
-            emphasize ? "font-semibold text-text" : "text-text-secondary"
+            "truncate text-sm transition-colors",
+            emphasize ? "font-semibold text-text" : "font-medium text-text-secondary"
           )}
         >
           {team.name}
@@ -44,8 +44,8 @@ function TeamRow({
       {score !== null && (
         <span
           className={cn(
-            "font-tabular text-lg font-bold",
-            emphasize ? "text-text" : "text-text-secondary"
+            "font-tabular text-xl font-bold leading-none transition-colors",
+            emphasize ? "text-text" : "text-text-muted"
           )}
         >
           {score}
@@ -57,31 +57,40 @@ function TeamRow({
 
 /**
  * Core unit of the Live page: two teams, their score, and current
- * status. Live games get a pulsing status badge; final games emphasize
- * the winning score; scheduled games show kickoff time instead of 0-0.
+ * status. Live games get a pulsing status badge + a left accent rail;
+ * final games emphasize the winning score; scheduled games show
+ * kickoff time instead of 0-0.
  */
 export function GameCard({ game, className }: GameCardProps) {
   const hasScore = game.homeScore !== null || game.awayScore !== null;
   const homeWinning = (game.homeScore ?? 0) > (game.awayScore ?? 0);
   const awayWinning = (game.awayScore ?? 0) > (game.homeScore ?? 0);
   const isFinal = game.status === "final";
+  const isLive = game.status === "live";
 
   return (
     <Card
       className={cn(
-        "flex flex-col gap-3 p-5",
-        game.status === "live" && "border-l-2 border-l-live",
+        "relative flex flex-col gap-3 overflow-hidden p-5",
+        isLive && "border-l-2 border-l-live",
         className
       )}
     >
+      {isLive && (
+        <span
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-live/60 to-transparent"
+          aria-hidden="true"
+        />
+      )}
+
       <div className="flex items-center justify-between">
-        <span className="text-xs font-medium uppercase tracking-wide text-text-muted">
+        <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-text-muted">
           {game.league}
         </span>
         <StatusBadge
-          status={game.status === "live" ? "live" : game.status === "final" ? "final" : "upcoming"}
+          status={isLive ? "live" : isFinal ? "final" : "upcoming"}
           label={game.statusLabel}
-          pulse={game.status === "live"}
+          pulse={isLive}
         />
       </div>
 
@@ -99,7 +108,7 @@ export function GameCard({ game, className }: GameCardProps) {
       </div>
 
       {game.status === "scheduled" && (
-        <p className="text-xs text-text-muted">{formatKickoff(game.date)}</p>
+        <p className="text-xs font-medium text-text-muted">{formatKickoff(game.date)}</p>
       )}
     </Card>
   );

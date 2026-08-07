@@ -22,14 +22,14 @@ export function PlayerStatsPanel({ stats }: PlayerStatsPanelProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         {stats.summaryLabel && (
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-text-secondary">
+          <h2 className="text-sm font-bold uppercase tracking-[0.12em] text-text-secondary">
             {stats.summaryLabel}
           </h2>
         )}
         {stats.groups.length > 1 && (
-          <div className="flex gap-1 overflow-x-auto" role="tablist" aria-label="Statistic period">
+          <div className="scroll-slim flex gap-1 overflow-x-auto" role="tablist" aria-label="Statistic period">
             {stats.groups.map((group, index) => (
               <button
                 key={group.label}
@@ -38,10 +38,10 @@ export function PlayerStatsPanel({ stats }: PlayerStatsPanelProps) {
                 aria-selected={index === activeIndex}
                 onClick={() => setActiveIndex(index)}
                 className={cn(
-                  "shrink-0 rounded-md px-2.5 py-1 text-xs font-semibold transition-colors duration-150",
+                  "shrink-0 rounded-md px-3 py-1.5 text-xs font-semibold transition-all duration-[var(--duration-fast)] ease-[var(--ease-out-soft)]",
                   index === activeIndex
-                    ? "bg-brand-soft text-brand"
-                    : "text-text-secondary hover:text-text"
+                    ? "bg-brand-soft text-brand ring-1 ring-brand/30"
+                    : "text-text-secondary hover:bg-surface-hover hover:text-text"
                 )}
               >
                 {group.label}
@@ -52,11 +52,14 @@ export function PlayerStatsPanel({ stats }: PlayerStatsPanelProps) {
       </div>
 
       {activeGroup && activeGroup.stats.length > 0 ? (
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+        <div className="stagger grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
           {activeGroup.stats.map((entry) => (
-            <div key={entry.label} className="rounded-lg border border-border bg-surface p-3 shadow-elevation-1">
-              <p className="text-xs font-semibold uppercase tracking-wide text-text-muted">{entry.label}</p>
-              <p className="mt-1.5 font-tabular text-xl font-bold text-text">{entry.value}</p>
+            <div
+              key={entry.label}
+              className="surface-hairline rounded-lg border border-border bg-surface p-4 shadow-elevation-1 transition-colors duration-[var(--duration-fast)] hover:border-border-strong"
+            >
+              <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-text-muted">{entry.label}</p>
+              <p className="mt-2 font-tabular text-2xl font-bold leading-none text-text">{entry.value}</p>
             </div>
           ))}
         </div>

@@ -39,13 +39,13 @@ export function Navbar() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-bg/95 backdrop-blur supports-[backdrop-filter]:bg-bg/80">
+    <header className="sticky top-0 z-50 border-b border-border bg-bg/85 backdrop-blur-md supports-[backdrop-filter]:bg-bg/70">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
         <NavLink to="/" className="shrink-0" aria-label="AthletiX home">
           <Logo />
         </NavLink>
 
-        <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">
+        <nav className="hidden items-center gap-0.5 md:flex" aria-label="Primary">
           {NAV_LINKS.map((link) => {
             const Icon = link.icon;
             return (
@@ -55,19 +55,25 @@ export function Navbar() {
                 end={link.end}
                 className={({ isActive }) =>
                   cn(
-                    "flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-semibold transition-colors duration-150",
+                    "group relative flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-semibold transition-colors duration-[var(--duration-fast)] ease-[var(--ease-out-soft)]",
                     isActive ? "text-text" : "text-text-secondary hover:text-text"
                   )
                 }
               >
                 {({ isActive }) => (
-                  <span className="relative flex items-center gap-1.5">
-                    <Icon className="h-4 w-4" aria-hidden="true" />
+                  <>
+                    <Icon
+                      className={cn(
+                        "h-4 w-4 transition-colors duration-[var(--duration-fast)]",
+                        isActive ? "text-brand" : "text-text-muted group-hover:text-text-secondary"
+                      )}
+                      aria-hidden="true"
+                    />
                     {link.label}
                     {isActive && (
-                      <span className="absolute -bottom-[9px] left-0 right-0 h-0.5 rounded-full bg-brand" />
+                      <span className="absolute -bottom-[9px] left-1/2 h-0.5 w-6 -translate-x-1/2 rounded-full bg-brand" />
                     )}
-                  </span>
+                  </>
                 )}
               </NavLink>
             );
@@ -78,7 +84,7 @@ export function Navbar() {
           <button
             type="button"
             onClick={() => setIsSearchOpen(true)}
-            className="flex h-9 items-center gap-2 rounded-md border border-border px-3 text-sm text-text-muted hover:border-border-strong hover:text-text-secondary"
+            className="flex h-9 items-center gap-2 rounded-md border border-border bg-surface px-3 text-sm text-text-muted transition-all duration-[var(--duration-fast)] ease-[var(--ease-out-soft)] hover:border-border-strong hover:bg-surface-hover hover:text-text-secondary"
             aria-label="Search players and teams"
           >
             <Search className="h-4 w-4" aria-hidden="true" />
@@ -90,7 +96,7 @@ export function Navbar() {
 
           <button
             type="button"
-            className="inline-flex h-9 w-9 items-center justify-center rounded-md text-text-secondary hover:bg-surface-hover hover:text-text md:hidden"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-md text-text-secondary transition-colors duration-[var(--duration-fast)] hover:bg-surface-hover hover:text-text md:hidden"
             onClick={() => setIsMenuOpen((open) => !open)}
             aria-expanded={isMenuOpen}
             aria-controls="mobile-nav"
@@ -102,7 +108,11 @@ export function Navbar() {
       </div>
 
       {isMenuOpen && (
-        <nav id="mobile-nav" aria-label="Primary" className="border-t border-border px-4 py-2 md:hidden">
+        <nav
+          id="mobile-nav"
+          aria-label="Primary"
+          className="animate-fade-in border-t border-border px-4 py-3 md:hidden"
+        >
           {NAV_LINKS.map((link) => {
             const Icon = link.icon;
             return (
@@ -113,9 +123,9 @@ export function Navbar() {
                 onClick={() => setIsMenuOpen(false)}
                 className={({ isActive }) =>
                   cn(
-                    "flex items-center gap-2 rounded-md px-3 py-2.5 text-sm font-semibold transition-colors duration-150",
+                    "flex items-center gap-2.5 rounded-md px-3 py-2.5 text-sm font-semibold transition-colors duration-[var(--duration-fast)]",
                     isActive
-                      ? "bg-surface-elevated text-text"
+                      ? "bg-brand-soft text-brand"
                       : "text-text-secondary hover:bg-surface-hover hover:text-text"
                   )
                 }

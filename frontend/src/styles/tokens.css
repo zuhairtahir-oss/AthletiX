@@ -6,13 +6,16 @@
  * (e.g. --color-brand -> bg-brand / text-brand / border-brand).
  *
  * Palette intent:
- *  - Near-black neutral base (not pure black) for a premium, low-glare surface.
+ *  - Deep charcoal / near-black base (not pure black) for a premium,
+ *    low-glare surface with a faint cool undertone.
  *  - Signal Teal as the primary brand color: performance/data-tech, not
  *    finance-blue/purple, not the red/orange used by most sports brands.
  *  - Warm Amber as the secondary accent: pairs with teal for comparisons,
  *    "vs" states, and secondary chart series.
  *  - Dedicated semantic colors for success/warning/error/live so status is
  *    never communicated by brand color alone.
+ *  - One distinct accent per sport so the app reads as a multi-sport
+ *    platform rather than every league looking identical.
  */
 
 @theme {
@@ -20,28 +23,32 @@
   --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
   --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
 
-  /* ---- Surfaces ---- */
-  --color-bg: #0a0b0d;
-  --color-surface: #15161a;
-  --color-surface-elevated: #1d1f24;
-  --color-surface-hover: #23262c;
+  /* ---- Surfaces (charcoal with a faint cool undertone) ---- */
+  --color-bg: #08090c;
+  --color-field: #0d0f13;
+  --color-surface: #14161b;
+  --color-surface-elevated: #1c1f26;
+  --color-surface-hover: #23262e;
+  --color-surface-sunken: #050608;
 
   /* ---- Borders ---- */
-  --color-border: #292b31;
-  --color-border-strong: #3a3d45;
+  --color-border: #262932;
+  --color-border-strong: #3a3e48;
+  --color-border-subtle: #1b1d24;
 
   /* ---- Text ---- */
-  --color-text: #f2f3f5;
-  --color-text-secondary: #a2a6ad;
-  --color-text-muted: #6b6f78;
+  --color-text: #f4f5f7;
+  --color-text-secondary: #a6abb4;
+  --color-text-muted: #6c717c;
 
-  /* ---- Brand ---- */
-  --color-brand: #17d6c2;
+  /* ---- Brand (Signal Teal) ---- */
+  --color-brand: #18d6c2;
   --color-brand-strong: #0fb8a6;
-  --color-brand-soft: #17d6c21a;
+  --color-brand-soft: #18d6c21a;
+  --color-brand-bright: #2ff0db;
   --color-on-brand: #04211e;
 
-  /* ---- Accent (secondary) ---- */
+  /* ---- Accent (Amber) ---- */
   --color-accent: #ff9d42;
   --color-accent-strong: #f2872a;
   --color-accent-soft: #ff9d421a;
@@ -56,28 +63,30 @@
   --color-error-soft: #f0525a20;
   --color-live: #ff4d5e;
   --color-live-soft: #ff4d5e20;
+  --color-live-strong: #ff2d40;
 
-  /*
-   * ---- Sport identity ----
-   * One distinct accent per sport so the app reads as a multi-sport
-   * platform (a small colored dot/icon next to a league name, a
-   * left-border on game cards) rather than every league looking
-   * identical. Deliberately desaturated versions of common sport
-   * associations — not primary-color-wheel picks — to stay consistent
-   * with the rest of the near-monochrome palette.
-   */
+  /* ---- Sport identity ---- */
   --color-sport-basketball: #ff9d42;
   --color-sport-hockey: #5eb1ff;
   --color-sport-football: #8b7cf6;
   --color-sport-baseball: #e0575c;
   --color-sport-soccer: #3ecf74;
 
-  /* ---- Radius (restrained, no pill-everything) ---- */
+  /* ---- Radius (restrained, not pill-everything) ---- */
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 14px;
+  --radius-xl: 20px;
 
   /* ---- Elevation (subtle, no glow/gradient shadows) ---- */
   --shadow-elevation-1: 0 1px 2px 0 rgb(0 0 0 / 0.4);
   --shadow-elevation-2: 0 8px 24px -8px rgb(0 0 0 / 0.55);
+  --shadow-elevation-3: 0 18px 48px -16px rgb(0 0 0 / 0.7);
+
+  /* ---- Motion ---- */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-fast: 150ms;
+  --duration-base: 220ms;
+  --duration-slow: 360ms;
 }

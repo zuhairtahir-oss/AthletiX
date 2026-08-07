@@ -1,5 +1,6 @@
 import { StatusBadge } from "../ui/StatusBadge";
 import { TeamBadge } from "../teams/TeamBadge";
+import { cn } from "../../utils/cn";
 import type { GameEvent } from "../../types/espn";
 
 interface GameListRowProps {
@@ -17,30 +18,36 @@ function formatDate(date: string): string {
  */
 export function GameListRow({ game }: GameListRowProps) {
   const hasScore = game.homeScore !== null || game.awayScore !== null;
+  const isLive = game.status === "live";
 
   return (
-    <div className="flex flex-col gap-2 border-b border-border py-2.5 last:border-b-0 sm:flex-row sm:items-center sm:justify-between">
-      <div className="flex min-w-0 items-center gap-1.5">
+    <div
+      className={cn(
+        "flex flex-col gap-2 border-b border-border py-3 last:border-b-0 sm:flex-row sm:items-center sm:justify-between",
+        isLive && "bg-live-soft/40"
+      )}
+    >
+      <div className="flex min-w-0 items-center gap-2">
         <TeamBadge team={game.awayTeam} size="sm" />
-        <span className="min-w-0 truncate text-sm text-text-secondary">
+        <span className="min-w-0 truncate text-sm font-medium text-text-secondary">
           {game.awayTeam.abbreviation ?? game.awayTeam.name}
         </span>
         <span className="shrink-0 text-xs text-text-muted">@</span>
         <TeamBadge team={game.homeTeam} size="sm" />
-        <span className="min-w-0 truncate text-sm text-text-secondary">
+        <span className="min-w-0 truncate text-sm font-medium text-text-secondary">
           {game.homeTeam.abbreviation ?? game.homeTeam.name}
         </span>
       </div>
       <div className="flex shrink-0 items-center gap-3">
         {hasScore && (
-          <span className="font-tabular text-sm font-semibold text-text">
+          <span className="font-tabular text-sm font-bold text-text">
             {game.awayScore}-{game.homeScore}
           </span>
         )}
         <StatusBadge
-          status={game.status === "live" ? "live" : game.status === "final" ? "final" : "upcoming"}
-          label={game.status === "final" ? "Final" : game.status === "live" ? game.statusLabel : formatDate(game.date)}
-          pulse={game.status === "live"}
+          status={isLive ? "live" : game.status === "final" ? "final" : "upcoming"}
+          label={game.status === "final" ? "Final" : isLive ? game.statusLabel : formatDate(game.date)}
+          pulse={isLive}
         />
       </div>
     </div>

@@ -37,7 +37,7 @@ export default function PlayersPage() {
 
       {!hasQuery && (
         <EmptyState
-          icon={<Users className="h-6 w-6" aria-hidden="true" />}
+          icon={<Users className="h-5 w-5" aria-hidden="true" />}
           title="Search for a player"
           description="Type at least 2 characters to find players across every league AthletiX tracks."
         />
@@ -60,14 +60,14 @@ export default function PlayersPage() {
 
       {hasQuery && searchQuery.isSuccess && players.length === 0 && (
         <EmptyState
-          icon={<Users className="h-6 w-6" aria-hidden="true" />}
+          icon={<Users className="h-5 w-5" aria-hidden="true" />}
           title="No players found"
           description={`No players matching "${trimmed}" in a supported league. Try a different spelling or player.`}
         />
       )}
 
       {hasQuery && searchQuery.isSuccess && players.length > 0 && (
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="stagger grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {players.map((result) => (
             <SearchResultCard key={`${result.league}-${result.id}`} result={result} />
           ))}
