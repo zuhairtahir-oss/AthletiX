@@ -31,7 +31,7 @@ export function RecentGamesTable({ gameLog }: RecentGamesTableProps) {
             </tr>
           </thead>
           <tbody>
-            {group.games.map((game, index) => (
+            {group.games.map((game) => (
               <tr
                 key={game.eventId}
                 className="border-b border-border-subtle transition-colors last:border-b-0 hover:bg-surface-hover"
