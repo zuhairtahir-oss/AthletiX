@@ -4,14 +4,15 @@ import type { TeamRef } from "../../types/espn";
 
 interface TeamBadgeProps {
   team: TeamRef;
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "xl";
   className?: string;
 }
 
 const sizeClasses = {
   sm: "h-6 w-6 text-[10px]",
   md: "h-9 w-9 text-xs",
-  lg: "h-14 w-14 text-base",
+  lg: "h-14 w-14 text-sm",
+  xl: "h-20 w-20 text-base",
 };
 
 const imgSizeClasses = {
@@ -40,7 +41,7 @@ export function TeamBadge({ team, size = "md", className }: TeamBadgeProps) {
     return (
       <span
         className={cn(
-          "inline-flex shrink-0 items-center justify-center rounded-full border border-border bg-surface-elevated font-bold text-text-secondary",
+          "inline-flex shrink-0 items-center justify-center rounded-full border border-border bg-surface-elevated font-display font-bold uppercase text-text-secondary",
           sizeClasses[size],
           className
         )}

@@ -17,7 +17,11 @@ interface LeagueTabsProps {
  */
 export function LeagueTabs({ leagues, activeSlug, onSelect }: LeagueTabsProps) {
   return (
-    <div className="flex gap-2 overflow-x-auto pb-1" role="tablist" aria-label="Select league">
+    <div
+      className="scroll-slim -mx-1 flex gap-2 overflow-x-auto px-1 pb-1"
+      role="tablist"
+      aria-label="Select league"
+    >
       {leagues.map((league) => {
         const isActive = league.slug === activeSlug;
         return (
@@ -28,10 +32,10 @@ export function LeagueTabs({ leagues, activeSlug, onSelect }: LeagueTabsProps) {
             aria-selected={isActive}
             onClick={() => onSelect(league.slug)}
             className={cn(
-              "flex shrink-0 items-center gap-2 rounded-md border px-3 py-1.5 text-sm font-semibold transition-colors duration-150",
+              "flex shrink-0 items-center gap-2 rounded-md border px-3.5 py-2 text-sm font-semibold transition-all duration-[var(--duration-fast)] ease-[var(--ease-out-soft)]",
               isActive
-                ? "border-brand bg-brand-soft text-brand"
-                : "border-border text-text-secondary hover:border-border-strong hover:text-text"
+                ? "border-brand bg-brand-soft text-brand shadow-[0_0_0_1px_var(--color-brand)_inset]"
+                : "border-border bg-surface text-text-secondary hover:border-border-strong hover:bg-surface-hover hover:text-text"
             )}
           >
             {league.sport && <SportDot sport={league.sport} />}

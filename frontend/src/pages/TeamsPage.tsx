@@ -75,14 +75,14 @@ export default function TeamsPage() {
 
       {isSearching && searchQuery.isSuccess && searchTeams.length === 0 && (
         <EmptyState
-          icon={<Shield className="h-6 w-6" aria-hidden="true" />}
+          icon={<Shield className="h-5 w-5" aria-hidden="true" />}
           title="No teams found"
           description={`No teams matching "${trimmed}" in a supported league.`}
         />
       )}
 
       {isSearching && searchQuery.isSuccess && searchTeams.length > 0 && (
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="stagger grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {searchTeams.map((result) => (
             <SearchResultCard key={`${result.league}-${result.id}`} result={result} />
           ))}
@@ -106,14 +106,14 @@ export default function TeamsPage() {
 
       {!isSearching && teamsQuery.isSuccess && teamsQuery.data.length === 0 && (
         <EmptyState
-          icon={<Shield className="h-6 w-6" aria-hidden="true" />}
+          icon={<Shield className="h-5 w-5" aria-hidden="true" />}
           title="No teams available"
           description="This league doesn't have team data right now."
         />
       )}
 
       {!isSearching && teamsQuery.isSuccess && teamsQuery.data.length > 0 && activeLeague && (
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="stagger grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {teamsQuery.data.map((team) => (
             <TeamCard key={team.id} team={team} leagueSlug={activeLeague} />
           ))}

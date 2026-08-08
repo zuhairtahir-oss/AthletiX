@@ -16,6 +16,7 @@ body,
 
 html {
   color-scheme: dark;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -23,12 +24,12 @@ body {
   background: var(--color-bg);
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  font-feature-settings: "cv11", "ss01";
 }
 
-/* Visible, consistent focus ring for keyboard navigation. Never rely on
-   browser default outlines (inconsistent) or remove them without a
-   replacement. */
+/* Visible, consistent focus ring for keyboard navigation. */
 :focus-visible {
   outline: 2px solid var(--color-brand);
   outline-offset: 2px;
@@ -40,8 +41,112 @@ body {
   color: var(--color-text);
 }
 
-/* Statistic/score display: tabular numerals so digits don't jitter in
-   score tickers, comparison bars, or stat tables. */
+/* Tabular numerals for scores, stat tables, comparison bars. */
 .font-tabular {
   font-variant-numeric: tabular-nums;
+}
+
+/* Display headings: condensed, uppercase tracking for an athletic feel. */
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+/* Subtle ambient grid + glow used on hero/empty sections. */
+.bg-field-grid {
+  background-image:
+    linear-gradient(to right, var(--color-border-subtle) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-border-subtle) 1px, transparent 1px);
+  background-size: 56px 56px;
+  background-position: -1px -1px;
+}
+
+.bg-radial-brand {
+  background-image: radial-gradient(
+    60% 80% at 70% 0%,
+    var(--color-brand-soft) 0%,
+    transparent 70%
+  );
+}
+
+/* Thin top hairline used on premium surfaces. */
+.surface-hairline {
+  box-shadow: inset 0 1px 0 0 rgb(255 255 255 / 0.04);
+}
+
+/* Custom scrollbar — slim, on-brand, only where overflow is expected. */
+.scroll-slim {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-strong) transparent;
+}
+.scroll-slim::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+.scroll-slim::-webkit-scrollbar-thumb {
+  background: var(--color-border-strong);
+  border-radius: 9999px;
+}
+.scroll-slim::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Motion helpers ------------------------------------------------------- */
+@keyframes ax-fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes ax-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes ax-pulse-ring {
+  0% { box-shadow: 0 0 0 0 var(--color-live-soft); }
+  70% { box-shadow: 0 0 0 6px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+@keyframes ax-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes ax-bar-grow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+.animate-fade-up {
+  animation: ax-fade-up var(--duration-base) var(--ease-out-soft) both;
+}
+.animate-fade-in {
+  animation: ax-fade-in var(--duration-base) var(--ease-out-soft) both;
+}
+.animate-pulse-ring {
+  animation: ax-pulse-ring 1.8s var(--ease-out-soft) infinite;
+}
+
+/* Staggered entrance for lists/grids. */
+.stagger > * {
+  animation: ax-fade-up var(--duration-base) var(--ease-out-soft) both;
+}
+.stagger > *:nth-child(1) { animation-delay: 0ms; }
+.stagger > *:nth-child(2) { animation-delay: 40ms; }
+.stagger > *:nth-child(3) { animation-delay: 80ms; }
+.stagger > *:nth-child(4) { animation-delay: 120ms; }
+.stagger > *:nth-child(5) { animation-delay: 160ms; }
+.stagger > *:nth-child(6) { animation-delay: 200ms; }
+.stagger > *:nth-child(7) { animation-delay: 240ms; }
+.stagger > *:nth-child(8) { animation-delay: 280ms; }
+.stagger > *:nth-child(9) { animation-delay: 320ms; }
+.stagger > *:nth-child(10) { animation-delay: 360ms; }
+.stagger > *:nth-child(n + 11) { animation-delay: 400ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
