@@ -72,20 +72,20 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
         className="w-full max-w-xl overflow-hidden rounded-lg border border-border-strong bg-surface shadow-elevation-2"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center gap-2 border-b border-border px-4">
+        <div className="flex items-center gap-3 border-b border-border px-5">
           <Search className="h-4 w-4 shrink-0 text-text-muted" aria-hidden="true" />
           <input
             ref={inputRef}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search players and teams..."
-            className="h-12 w-full bg-transparent text-sm text-text placeholder:text-text-muted focus:outline-none"
+            className="h-14 w-full bg-transparent text-sm text-text placeholder:text-text-muted focus:outline-none"
             aria-label="Search players and teams"
           />
           <button
             type="button"
             onClick={handleClose}
-            className="rounded-md p-1 text-text-muted hover:bg-surface-hover hover:text-text"
+            className="rounded-md p-1.5 text-text-muted hover:bg-surface-hover hover:text-text"
             aria-label="Close search"
           >
             <X className="h-4 w-4" aria-hidden="true" />

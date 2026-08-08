@@ -22,7 +22,7 @@ export default function TeamDetailPage() {
   );
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-8">
       <Link
         to="/teams"
         className="inline-flex items-center gap-1.5 text-sm font-medium text-text-secondary hover:text-text"
@@ -59,15 +59,20 @@ export default function TeamDetailPage() {
 
       {team && (
         <>
-          <PageHeader
-            eyebrow={team.league}
-            title={team.name}
-            description={team.venue ?? team.location ?? undefined}
-            actions={<TeamBadge team={team} size="lg" />}
-          />
+          <div
+            className="border-l-2 pl-4"
+            style={{ borderLeftColor: team.color ?? "var(--color-border)" }}
+          >
+            <PageHeader
+              eyebrow={team.league}
+              title={team.name}
+              description={team.venue ?? team.location ?? undefined}
+              actions={<TeamBadge team={team} size="lg" />}
+            />
+          </div>
 
           {teamStandingsGroup && league && (
-            <section aria-labelledby="standings-heading" className="flex flex-col gap-3">
+            <section aria-labelledby="standings-heading" className="flex flex-col gap-4">
               <h2 id="standings-heading" className="text-sm font-semibold uppercase tracking-wide text-text-secondary">
                 Standings
               </h2>
@@ -76,7 +81,7 @@ export default function TeamDetailPage() {
           )}
 
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <section aria-labelledby="upcoming-heading" className="flex flex-col gap-3">
+            <section aria-labelledby="upcoming-heading" className="flex flex-col gap-4">
               <h2
                 id="upcoming-heading"
                 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-text-secondary"
@@ -87,7 +92,7 @@ export default function TeamDetailPage() {
               {team.schedule.upcoming.length === 0 ? (
                 <p className="text-sm text-text-secondary">No upcoming games scheduled.</p>
               ) : (
-                <Card className="px-3">
+                <Card className="px-4">
                   {team.schedule.upcoming.map((game) => (
                     <GameListRow key={game.id} game={game} />
                   ))}
@@ -95,7 +100,7 @@ export default function TeamDetailPage() {
               )}
             </section>
 
-            <section aria-labelledby="recent-heading" className="flex flex-col gap-3">
+            <section aria-labelledby="recent-heading" className="flex flex-col gap-4">
               <h2
                 id="recent-heading"
                 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-text-secondary"
@@ -106,7 +111,7 @@ export default function TeamDetailPage() {
               {team.schedule.recent.length === 0 ? (
                 <p className="text-sm text-text-secondary">No completed games yet this season.</p>
               ) : (
-                <Card className="px-3">
+                <Card className="px-4">
                   {team.schedule.recent.map((game) => (
                     <GameListRow key={game.id} game={game} />
                   ))}
@@ -115,8 +120,8 @@ export default function TeamDetailPage() {
             </section>
           </div>
 
-          <section aria-labelledby="roster-heading">
-            <h2 id="roster-heading" className="mb-3 text-sm font-semibold uppercase tracking-wide text-text-secondary">
+          <section aria-labelledby="roster-heading" className="flex flex-col gap-4">
+            <h2 id="roster-heading" className="text-sm font-semibold uppercase tracking-wide text-text-secondary">
               Roster
             </h2>
 

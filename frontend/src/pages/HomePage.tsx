@@ -6,38 +6,57 @@ import { Card } from "../components/ui/Card";
 import { Skeleton } from "../components/ui/Skeleton";
 import { GameCard } from "../components/games/GameCard";
 import { SportDot } from "../components/leagues/SportDot";
+import { StandingsTable } from "../components/standings/StandingsTable";
 import { useLiveGames } from "../hooks/useLiveGames";
 import { useLeagues } from "../hooks/useLeagues";
+import { useStandings } from "../hooks/useStandings";
 import { SPORT_LABELS } from "../utils/sport";
 import { cn } from "../utils/cn";
 import type { League, Sport } from "../types/espn";
 
+/**
+ * Each Explore tile gets its own accent (drawn from the semantic/info
+ * tokens, never brand teal — teal stays reserved for nav/primary
+ * actions per the color-hierarchy rule) so the four tiles read as
+ * distinct destinations rather than one template repeated four times.
+ */
 const WORKFLOWS = [
   {
     to: "/live",
     icon: Radio,
     title: "Live",
     description: "Scores and status for games in progress.",
+    accent: "live" as const,
   },
   {
     to: "/players",
     icon: Users,
     title: "Players",
     description: "Search players and dig into sport-specific stats.",
+    accent: "info" as const,
   },
   {
     to: "/teams",
     icon: Shield,
     title: "Teams",
     description: "Rosters, standings, and schedules.",
+    accent: "success" as const,
   },
   {
     to: "/compare",
     icon: GitCompareArrows,
     title: "Compare",
     description: "Put two players or teams side by side.",
+    accent: "accent" as const,
   },
 ];
+
+const ACCENT_CLASSES: Record<string, string> = {
+  live: "bg-live-soft text-live",
+  info: "bg-info-soft text-info",
+  success: "bg-success-soft text-success",
+  accent: "bg-accent-soft text-accent",
+};
 
 function groupLeaguesBySport(leagues: League[]): Array<{ sport: Sport; leagues: League[] }> {
   const bySport = new Map<Sport, League[]>();
@@ -61,10 +80,20 @@ export default function HomePage() {
   const { data: leagues, isLoading: leaguesLoading } = useLeagues();
 
   const sportGroups = useMemo(() => groupLeaguesBySport(leagues ?? []), [leagues]);
-  const featuredGames = (liveGames.data ?? []).slice(0, 3);
+  // Home is a dashboard, not a landing page — show as many live games as
+  // exist (up to a page's worth) rather than an arbitrary teaser of 3.
+  const featuredGames = (liveGames.data ?? []).slice(0, 6);
   const liveCount = liveGames.data?.length ?? 0;
   const sportsCovered = sportGroups.length;
   const leaguesTracked = leagues?.length ?? 0;
+
+  // Real standings preview: first league in the registry, top rows of
+  // its first group. No mock data — just a truncated view of the same
+  // /api/standings response the Teams/Team-detail pages use.
+  const previewLeague = leagues?.[0];
+  const standingsQuery = useStandings(previewLeague?.slug);
+  const previewGroup = standingsQuery.data?.[0];
+  const previewRows = previewGroup?.rows.slice(0, 5) ?? [];
 
   const snapshotStats = [
     { label: "Live right now", value: liveCount, icon: Radio },
@@ -73,13 +102,13 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="flex flex-col gap-16">
-      <section className="grid grid-cols-1 items-center gap-10 py-4 sm:py-8 lg:grid-cols-[1.1fr_0.9fr] lg:gap-8">
+    <div className="flex flex-col gap-10">
+      <section className="grid grid-cols-1 items-center gap-8 py-2 lg:grid-cols-[1.1fr_0.9fr] lg:gap-6">
         <div className="flex flex-col gap-6">
           <p className="text-xs font-semibold uppercase tracking-widest text-brand">
             Multi-Sport Intelligence
           </p>
-          <h1 className="max-w-xl font-display text-5xl font-bold leading-[1.05] tracking-tight text-text sm:text-6xl">
+          <h1 className="max-w-xl font-display text-4xl font-bold leading-[1.1] tracking-tight text-text sm:text-5xl">
             Scores, rosters, and comparisons in one place.
           </h1>
           <p className="max-w-lg text-base leading-relaxed text-text-secondary">
@@ -98,14 +127,11 @@ export default function HomePage() {
           </div>
         </div>
 
-        <Card className="flex flex-col gap-1 p-2 sm:p-3">
+        <Card className="flex flex-col divide-y divide-border p-2">
           {snapshotStats.map(({ label, value, icon: Icon }) => (
-            <div
-              key={label}
-              className="flex items-center justify-between gap-4 rounded-md px-4 py-4 sm:px-5"
-            >
+            <div key={label} className="flex items-center justify-between gap-4 px-4 py-3">
               <div className="flex items-center gap-3">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-brand-soft text-brand">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-surface-elevated text-brand">
                   <Icon className="h-[18px] w-[18px]" aria-hidden="true" />
                 </span>
                 <span className="text-sm font-medium text-text-secondary">{label}</span>
@@ -159,6 +185,32 @@ export default function HomePage() {
         )}
       </section>
 
+      {previewLeague && (
+        <section aria-labelledby="standings-heading" className="flex flex-col gap-4">
+          <div className="flex items-center justify-between">
+            <h2 id="standings-heading" className="text-sm font-semibold uppercase tracking-wide text-text-secondary">
+              {previewLeague.name} Standings
+            </h2>
+            <Link
+              to={`/teams?league=${previewLeague.slug}`}
+              className="flex items-center gap-1 text-sm font-semibold text-brand hover:text-brand-strong"
+            >
+              Full standings
+              <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+            </Link>
+          </div>
+
+          {standingsQuery.isLoading && <Skeleton className="h-56 w-full" />}
+
+          {standingsQuery.isSuccess && previewGroup && previewRows.length > 0 && (
+            <StandingsTable
+              group={{ name: previewGroup.name, rows: previewRows }}
+              leagueSlug={previewLeague.slug}
+            />
+          )}
+        </section>
+      )}
+
       <section aria-labelledby="explore-heading" className="flex flex-col gap-4">
         <h2 id="explore-heading" className="text-sm font-semibold uppercase tracking-wide text-text-secondary">
           Explore
@@ -169,7 +221,12 @@ export default function HomePage() {
             return (
               <Link key={section.to} to={section.to} className="block">
                 <Card interactive className="group flex h-full flex-col gap-4 p-6">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-brand-soft text-brand">
+                  <span
+                    className={cn(
+                      "flex h-11 w-11 items-center justify-center rounded-lg",
+                      ACCENT_CLASSES[section.accent]
+                    )}
+                  >
                     <Icon className="h-5 w-5" aria-hidden="true" />
                   </span>
                   <div>
@@ -208,7 +265,7 @@ export default function HomePage() {
             {sportGroups.map((group) => (
               <div
                 key={group.sport}
-                className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:gap-6 sm:p-5"
+                className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:gap-6"
               >
                 <div className="flex shrink-0 items-center gap-2 sm:w-40">
                   <SportDot sport={group.sport} />

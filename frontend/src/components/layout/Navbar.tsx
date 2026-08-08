@@ -78,7 +78,7 @@ export function Navbar() {
           <button
             type="button"
             onClick={() => setIsSearchOpen(true)}
-            className="flex h-9 items-center gap-2 rounded-md border border-border px-3 text-sm text-text-muted hover:border-border-strong hover:text-text-secondary"
+            className="flex h-10 items-center gap-2.5 rounded-md border border-border px-4 text-sm text-text-muted hover:border-border-strong hover:text-text-secondary"
             aria-label="Search players and teams"
           >
             <Search className="h-4 w-4" aria-hidden="true" />

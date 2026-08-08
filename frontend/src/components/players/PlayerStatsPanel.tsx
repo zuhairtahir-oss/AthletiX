@@ -52,7 +52,7 @@ export function PlayerStatsPanel({ stats }: PlayerStatsPanelProps) {
       </div>
 
       {activeGroup && activeGroup.stats.length > 0 ? (
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {activeGroup.stats.map((entry) => (
             <div key={entry.label} className="rounded-lg border border-border bg-surface p-3 shadow-elevation-1">
               <p className="text-xs font-semibold uppercase tracking-wide text-text-muted">{entry.label}</p>

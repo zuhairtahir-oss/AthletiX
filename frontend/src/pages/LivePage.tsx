@@ -17,7 +17,7 @@ function GameSection({ title, games }: { title: string; games: GameEvent[] }) {
   if (games.length === 0) return null;
 
   return (
-    <section aria-labelledby={`${title}-heading`} className="flex flex-col gap-3">
+    <section aria-labelledby={`${title}-heading`} className="flex flex-col gap-4">
       <h2 id={`${title}-heading`} className="text-sm font-semibold uppercase tracking-wide text-text-secondary">
         {title} ({games.length})
       </h2>
@@ -60,7 +60,7 @@ export default function LivePage() {
   const tabs = [{ slug: ALL_LIVE_SLUG, name: "All Live" }, ...(leagues ?? [])];
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-8">
       <PageHeader
         eyebrow="Scoreboard"
         title="Live"

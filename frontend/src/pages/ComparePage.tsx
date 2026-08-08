@@ -80,7 +80,7 @@ export default function ComparePage() {
 
       {!hasBothSides && (
         <>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <ComparePicker mode={mode} label={labelA ?? "Side A"} onSelect={(r) => selectSide("a", r)} />
             <ComparePicker mode={mode} label={labelB ?? "Side B"} onSelect={(r) => selectSide("b", r)} />
           </div>

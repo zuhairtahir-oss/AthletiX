@@ -14,14 +14,26 @@ const sizeClasses = {
   lg: "h-14 w-14 text-base",
 };
 
+const imgSizeClasses = {
+  sm: "h-4 w-4",
+  md: "h-6 w-6",
+  lg: "h-9 w-9",
+};
+
 /**
  * Team logo with a graceful fallback (initials on a dark chip) when no
  * logo is available or the image fails to load — avoids broken-image
- * icons anywhere a team appears.
+ * icons anywhere a team appears. When the backend supplies a real team
+ * color, it's used as a subtle tinted ring around the badge so team
+ * identity reads at a glance without relying on brand teal everywhere.
  */
 export function TeamBadge({ team, size = "md", className }: TeamBadgeProps) {
   const [imageFailed, setImageFailed] = useState(false);
   const showFallback = !team.logo || imageFailed;
+
+  const accentStyle = team.color
+    ? { backgroundColor: `${team.color}1f`, borderColor: `${team.color}80` }
+    : undefined;
 
   if (showFallback) {
     const initials = (team.abbreviation ?? team.name).slice(0, 3).toUpperCase();
@@ -32,6 +44,7 @@ export function TeamBadge({ team, size = "md", className }: TeamBadgeProps) {
           sizeClasses[size],
           className
         )}
+        style={accentStyle}
         aria-hidden="true"
       >
         {initials}
@@ -40,11 +53,20 @@ export function TeamBadge({ team, size = "md", className }: TeamBadgeProps) {
   }
 
   return (
-    <img
-      src={team.logo ?? undefined}
-      alt={`${team.name} logo`}
-      className={cn("shrink-0 object-contain", sizeClasses[size], className)}
-      onError={() => setImageFailed(true)}
-    />
+    <span
+      className={cn(
+        "inline-flex shrink-0 items-center justify-center rounded-full border border-border bg-surface-elevated",
+        sizeClasses[size],
+        className
+      )}
+      style={accentStyle}
+    >
+      <img
+        src={team.logo ?? undefined}
+        alt={`${team.name} logo`}
+        className={cn("object-contain", imgSizeClasses[size])}
+        onError={() => setImageFailed(true)}
+      />
+    </span>
   );
 }

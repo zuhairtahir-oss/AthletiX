@@ -5,57 +5,99 @@
  * Tailwind v4 reads this @theme block and generates matching utilities
  * (e.g. --color-brand -> bg-brand / text-brand / border-brand).
  *
- * Palette intent:
- *  - Near-black neutral base (not pure black) for a premium, low-glare surface.
- *  - Signal Teal as the primary brand color: performance/data-tech, not
- *    finance-blue/purple, not the red/orange used by most sports brands.
- *  - Warm Amber as the secondary accent: pairs with teal for comparisons,
- *    "vs" states, and secondary chart series.
- *  - Dedicated semantic colors for success/warning/error/live so status is
+ * Palette intent (Sofascore-inspired: commit to ONE confident signature
+ * accent, not a flat gray+teal scheme that could belong to any app):
+ *  - Vivid Signature Green (#1ed760) is the ONE brand color: logo mark,
+ *    active nav state, primary buttons, focus rings, and "leading/positive"
+ *    data highlights. Used with intention — NOT sprinkled as decoration on
+ *    every icon chip/card. See semantic + sport tokens below for that.
+ *  - Live Orange is the dedicated, warm secondary reserved specifically
+ *    for "live now"/urgent status, so it visually pops against the green
+ *    used for nav/actions — two intentional colors, not one color everywhere.
+ *  - Warm Amber (secondary accent) pairs with green for comparisons/"vs"
+ *    states and secondary chart series — distinct hue from Live Orange so
+ *    "urgent" and "comparison side B" never read as the same signal.
+ *  - Dedicated semantic colors for success/warning/error so status is
  *    never communicated by brand color alone.
+ *
+ * Base background is a dark cool navy/charcoal (not flat near-black) and
+ * every surface step carries a slight cool tint rather than a flat gray
+ * lighten, so the app reads as a designed system, not a default dark theme.
+ *
+ * Surface hierarchy (each step is a deliberate, visible jump — not a ~5%
+ * tint — so cards/panels/tables actually separate from the page and from
+ * each other without leaning on shadows alone):
+ *   --color-bg               base page background (darkest)
+ *   --color-surface          default card/panel/table background
+ *   --color-surface-elevated nested/secondary surface (table headers, tab
+ *                             strips, stat chips sitting inside a card)
+ *   --color-surface-hover    interactive hover/active state (brightest)
+ *   --color-border           default edge — must read clearly against
+ *                             --color-surface, not just --color-bg
+ *   --color-border-strong    emphasized edge (hover, focus-adjacent)
+ *
+ * Spacing scale: all section/card/grid spacing across the app should use
+ * multiples of 8px (Tailwind's gap-2/4/6/8/10/12/16, p-2/4/6/8) rather than
+ * ad-hoc values like gap-3/p-3/p-5, so vertical rhythm reads as intentional
+ * on every page, not just Home.
  */
 
 @theme {
-  /* ---- Typography ---- */
-  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  /* ---- Typography ----
+   * Sora: geometric, confident, still a "sports/data platform" display
+   * face without the ultra-condensed streetwear read of Barlow Condensed.
+   * Manrope stays as the workhorse body/stat font. */
+  --font-display: "Sora", "Manrope", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
 
-  /* ---- Surfaces ---- */
-  --color-bg: #0a0b0d;
-  --color-surface: #15161a;
-  --color-surface-elevated: #1d1f24;
-  --color-surface-hover: #23262c;
+  /* ---- Surfaces (dark cool navy base, slight cool tint per step) ---- */
+  --color-bg: #0d1117;
+  --color-surface: #141a23;
+  --color-surface-elevated: #1c2430;
+  --color-surface-hover: #26303f;
 
   /* ---- Borders ---- */
-  --color-border: #292b31;
-  --color-border-strong: #3a3d45;
+  --color-border: #2b3545;
+  --color-border-strong: #3f4c60;
 
   /* ---- Text ---- */
   --color-text: #f2f3f5;
   --color-text-secondary: #a2a6ad;
-  --color-text-muted: #6b6f78;
+  --color-text-muted: #6b7280;
 
-  /* ---- Brand ---- */
-  --color-brand: #17d6c2;
-  --color-brand-strong: #0fb8a6;
-  --color-brand-soft: #17d6c21a;
-  --color-on-brand: #04211e;
+  /* ---- Brand: Signature Green (the one confident accent) ---- */
+  --color-brand: #1ed760;
+  --color-brand-strong: #14b850;
+  --color-brand-soft: #1ed76020;
+  --color-on-brand: #04170b;
 
-  /* ---- Accent (secondary) ---- */
-  --color-accent: #ff9d42;
-  --color-accent-strong: #f2872a;
-  --color-accent-soft: #ff9d421a;
-  --color-on-accent: #2a1400;
+  /* ---- Accent (secondary, warm amber — comparisons/"vs" states) ---- */
+  --color-accent: #f0b429;
+  --color-accent-strong: #d99a12;
+  --color-accent-soft: #f0b42920;
+  --color-on-accent: #241800;
 
   /* ---- Semantic status ---- */
-  --color-success: #3ecf74;
-  --color-success-soft: #3ecf7420;
+  --color-success: #1ed760;
+  --color-success-soft: #1ed76020;
   --color-warning: #f2b03d;
   --color-warning-soft: #f2b03d20;
   --color-error: #f0525a;
   --color-error-soft: #f0525a20;
-  --color-live: #ff4d5e;
-  --color-live-soft: #ff4d5e20;
+
+  /* ---- Live/urgent: dedicated warm orange, distinct from brand green
+     and from the amber accent, so "live now" always pops on its own. ---- */
+  --color-live: #ff5c1a;
+  --color-live-soft: #ff5c1a22;
+
+  /*
+   * Neutral "info" accent — used only for decorative differentiation
+   * between otherwise-equal navigation tiles (e.g. the Players tile on
+   * Home) where none of success/warning/error/live/sport fits and green
+   * is reserved for primary actions/nav, per the color-hierarchy rule.
+   */
+  --color-info: #5b8def;
+  --color-info-soft: #5b8def20;
 
   /*
    * ---- Sport identity ----
@@ -70,7 +112,7 @@
   --color-sport-hockey: #5eb1ff;
   --color-sport-football: #8b7cf6;
   --color-sport-baseball: #e0575c;
-  --color-sport-soccer: #3ecf74;
+  --color-sport-soccer: #17d6c2;
 
   /* ---- Radius (restrained, no pill-everything) ---- */
   --radius-sm: 6px;

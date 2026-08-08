@@ -11,8 +11,12 @@ interface TeamCardProps {
 export function TeamCard({ team, leagueSlug }: TeamCardProps) {
   return (
     <Link to={`/teams/${leagueSlug}/${team.id}`}>
-      <Card interactive className="flex items-center gap-3 p-4">
-        <TeamBadge team={team} size="lg" />
+      <Card
+        interactive
+        className="flex items-center gap-3 border-l-2 p-3"
+        style={{ borderLeftColor: team.color ?? "var(--color-border)" }}
+      >
+        <TeamBadge team={team} size="md" />
         <div className="min-w-0">
           <p className="truncate text-sm font-semibold text-text">{team.name}</p>
           {team.location && <p className="truncate text-xs text-text-secondary">{team.location}</p>}

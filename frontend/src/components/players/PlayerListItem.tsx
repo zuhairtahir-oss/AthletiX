@@ -16,10 +16,10 @@ export function PlayerListItem({ player, leagueSlug }: PlayerListItemProps) {
           <img
             src={player.headshot}
             alt=""
-            className="h-10 w-10 shrink-0 rounded-full border border-border bg-surface-elevated object-cover"
+            className="h-9 w-9 shrink-0 rounded-full border border-border bg-surface-elevated object-cover"
           />
         ) : (
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border bg-surface-elevated text-text-muted">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border bg-surface-elevated text-text-muted">
             <User className="h-4 w-4" aria-hidden="true" />
           </span>
         )}

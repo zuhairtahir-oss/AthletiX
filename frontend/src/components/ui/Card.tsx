@@ -7,8 +7,10 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * Base surface for all card-style content. Deliberately restrained:
- * modest radius, single-level border, no gradients or heavy shadow.
+ * Base surface for all card-style content. Sits one clear step above
+ * the page background (see the surface hierarchy in tokens.css) with a
+ * border that actually reads against it, plus a subtle top highlight so
+ * the card reads as physically raised rather than just outlined.
  */
 export function Card({ interactive, className, ...props }: CardProps) {
   return (

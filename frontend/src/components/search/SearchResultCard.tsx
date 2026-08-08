@@ -28,14 +28,14 @@ export function SearchResultCard({ result }: SearchResultCardProps) {
           <img
             src={result.image}
             alt=""
-            className="h-11 w-11 shrink-0 rounded-full border border-border bg-surface-elevated object-cover"
+            className="h-10 w-10 shrink-0 rounded-full border border-border bg-surface-elevated object-cover"
           />
         ) : (
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border bg-surface-elevated text-text-muted">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border bg-surface-elevated text-text-muted">
             {result.type === "player" ? (
-              <User className="h-5 w-5" aria-hidden="true" />
+              <User className="h-4 w-4" aria-hidden="true" />
             ) : (
-              <Shield className="h-5 w-5" aria-hidden="true" />
+              <Shield className="h-4 w-4" aria-hidden="true" />
             )}
           </span>
         )}

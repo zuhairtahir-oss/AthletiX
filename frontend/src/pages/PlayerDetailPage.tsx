@@ -1,6 +1,5 @@
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, User, BarChart3 } from "lucide-react";
-import { PageHeader } from "../components/ui/PageHeader";
 import { ErrorState } from "../components/ui/ErrorState";
 import { EmptyState } from "../components/ui/EmptyState";
 import { Skeleton } from "../components/ui/Skeleton";
@@ -18,7 +17,7 @@ export default function PlayerDetailPage() {
   const hasStats = (statsQuery.data?.stats.groups.length ?? 0) > 0;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-8">
       <Link
         to="/players"
         className="inline-flex items-center gap-1.5 text-sm font-medium text-text-secondary hover:text-text"
@@ -54,38 +53,50 @@ export default function PlayerDetailPage() {
 
       {player && (
         <>
-          <PageHeader
-            eyebrow={player.league ?? undefined}
-            title={player.name}
-            description={player.position ?? undefined}
-            actions={
-              player.team ? (
+          <div
+            className="border-l-2 pl-4"
+            style={{ borderLeftColor: player.team?.color ?? "var(--color-border)" }}
+          >
+            <div className="flex flex-col gap-4 border-b border-border pb-8 sm:flex-row sm:items-end sm:justify-between">
+              <div className="flex items-center gap-4">
+                {player.headshot ? (
+                  <img
+                    src={player.headshot}
+                    alt={player.name}
+                    className="h-20 w-20 shrink-0 rounded-full border border-border bg-surface-elevated object-cover shadow-elevation-1"
+                  />
+                ) : (
+                  <span className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full border border-border bg-surface-elevated text-text-muted shadow-elevation-1">
+                    <User className="h-8 w-8" aria-hidden="true" />
+                  </span>
+                )}
+                <div>
+                  {player.league && (
+                    <p className="text-xs font-semibold uppercase tracking-widest text-brand">
+                      {player.league}
+                    </p>
+                  )}
+                  <h1 className="mt-2 font-display text-3xl font-bold tracking-tight text-text sm:text-4xl">
+                    {player.name}
+                  </h1>
+                  {player.position && (
+                    <p className="mt-2 text-sm leading-relaxed text-text-secondary">{player.position}</p>
+                  )}
+                </div>
+              </div>
+              {player.team && (
                 <Link
                   to={`/teams/${league}/${player.team.id}`}
-                  className="flex items-center gap-2 rounded-md border border-border px-3 py-2 text-sm font-semibold text-text-secondary hover:border-border-strong hover:text-text"
+                  className="flex shrink-0 items-center gap-2 rounded-md border border-border px-3 py-2 text-sm font-semibold text-text-secondary hover:border-border-strong hover:text-text"
                 >
                   <TeamBadge team={player.team} size="sm" />
                   {player.team.name}
                 </Link>
-              ) : undefined
-            }
-          />
-
-          <div className="flex items-center gap-4">
-            {player.headshot ? (
-              <img
-                src={player.headshot}
-                alt={player.name}
-                className="h-20 w-20 rounded-full border border-border bg-surface-elevated object-cover shadow-elevation-1"
-              />
-            ) : (
-              <span className="flex h-20 w-20 items-center justify-center rounded-full border border-border bg-surface-elevated text-text-muted shadow-elevation-1">
-                <User className="h-8 w-8" aria-hidden="true" />
-              </span>
-            )}
+              )}
+            </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
             <StatCard label="Jersey" value={player.jersey ?? "—"} />
             <StatCard label="Height" value={player.height ?? "—"} />
             <StatCard label="Weight" value={player.weight ?? "—"} />
@@ -93,9 +104,9 @@ export default function PlayerDetailPage() {
           </div>
 
           {statsQuery.isLoading && (
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-4">
               <Skeleton className="h-5 w-40" />
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
                 {Array.from({ length: 8 }).map((_, i) => (
                   <Skeleton key={i} className="h-16" />
                 ))}

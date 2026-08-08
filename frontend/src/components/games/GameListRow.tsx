@@ -20,7 +20,7 @@ export function GameListRow({ game }: GameListRowProps) {
 
   return (
     <div className="flex flex-col gap-2 border-b border-border py-2.5 last:border-b-0 sm:flex-row sm:items-center sm:justify-between">
-      <div className="flex min-w-0 items-center gap-1.5">
+      <div className="flex min-w-0 items-center gap-2">
         <TeamBadge team={game.awayTeam} size="sm" />
         <span className="min-w-0 truncate text-sm text-text-secondary">
           {game.awayTeam.abbreviation ?? game.awayTeam.name}
